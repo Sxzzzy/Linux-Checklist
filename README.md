@@ -323,11 +323,21 @@ Click Close (or Cancel if prompted to apply updates)
 
 		POSSIBLY BAD STUFF
 
-		`samba, postgresql, sftpd, vsftpd, apache, ftp, mysql, php, snmp, pop3, icmp, sendmail, dovecot, bind9, nginx, AisleRiot, manaplus`
+		`samba, postgresql, sftpd, vsftpd, apache, ftp, mysql, php, snmp, pop3, icmp, sendmail/postfix, dovecot, bind9, nginx, AisleRiot, manaplus, JTR,`
 
 		MEGA BAD STUFF
 
 		`telnet, rlogind, rshd, rcmd, rexecd, rbootd, rquotad, rstatd, rusersd, rwalld, rexd, fingerd, tftpd, telnet, snmp, netcat, nc, nginx,apache2`
+
+  		IF FTP REQUIRED INSTALLED SECURE IT:
+		`sudo nano /etc/vsftpd.conf`
+
+		`
+		anonymous_enable=ON
+		local_enable=YES
+		write_enable=YES
+		chroot_local_user=YES
+		`
 
 1. Service & Application Hardening
 
@@ -408,6 +418,36 @@ Click Close (or Cancel if prompted to apply updates)
 	1. Deny users use of cron jobs
 
 		`$ echo "ALL" >> /etc/cron.deny`
+1. Kernel Securing
+	`Sysctl -p`
+
+   	1. Add this to the bottom of the `/etc/sysctl.conf` file
+   		1. Disable ICMP redirects
+			`1.	net.ipv4.conf.all.accept_redirects = 0`
+   		1. Disable IP redirecting
+			`
+   			net.ipv4.ip_forward = 0
+			net.ipv4.conf.all.send_redirects = 0
+			net.ipv4.conf.default.send_redirects = 0
+			`
+   		1. Disable IP spoofing
+			`net.ipv4.conf.all.rp_filter=1`
+   		1. Disable IP source routing
+			`net.ipv4.conf.all.accept_source_route=0`
+   		1. SYN Flood Protection
+			`
+   			net.ipv4.tcp_max_syn_backlog = 2048
+			net.ipv4.tcp_synack_retries = 2
+			net.ipv4.tcp_syn_retries = 5
+			net.ipv4.tcp_syncookies = 1
+			`
+   		1. Disable IPV6
+			`
+			net.ipv6.conf.all.disable_ipv6 = 1
+			net.ipv6.conf.default.disable_ipv6
+			net.ipv6.conf.lo.disable_ipv6
+			`
+
 1. Kernel Debugging
    	1.  The file: `/etc/sysctl.conf` should have `kernel.sysrq = 0`
 1. Kernel Hardening
