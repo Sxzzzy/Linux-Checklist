@@ -419,6 +419,7 @@ Click Close (or Cancel if prompted to apply updates)
 
 		`$ echo "ALL" >> /etc/cron.deny`
 1. Kernel Securing
+   
 	`Sysctl -p`
 
    	1. Add this to the bottom of the `/etc/sysctl.conf` file
@@ -429,34 +430,36 @@ Click Close (or Cancel if prompted to apply updates)
 
    		1. Disable IP redirecting
    	    
-			`
+			```
    			net.ipv4.ip_forward = 0
 			net.ipv4.conf.all.send_redirects = 0
 			net.ipv4.conf.default.send_redirects = 0
-			`
+			```
    
    		1. Disable IP spoofing
    	    
 			`net.ipv4.conf.all.rp_filter=1`
+
    		1. Disable IP source routing
    	    
 			`net.ipv4.conf.all.accept_source_route=0`
+
    		1. SYN Flood Protection
    	    
-			`
+			```
    			net.ipv4.tcp_max_syn_backlog = 2048
 			net.ipv4.tcp_synack_retries = 2
 			net.ipv4.tcp_syn_retries = 5
 			net.ipv4.tcp_syncookies = 1
-			`
+			```
    
    		1. Disable IPV6
    	    
-			`
+			```
 			net.ipv6.conf.all.disable_ipv6 = 1
 			net.ipv6.conf.default.disable_ipv6
 			net.ipv6.conf.lo.disable_ipv6
-			`
+			```
 
 1. Kernel Debugging
    	1.  The file: `/etc/sysctl.conf` should have `kernel.sysrq = 0`
@@ -583,6 +586,100 @@ Click Close (or Cancel if prompted to apply updates)
 		`$ auditctl -e 1`
 
 	1. Configure with `/etc/audit/auditd.conf`
+    
+1. Check cronjobs
+   
+	1. Check these folders
+
+	```
+	/etc/cron.*
+	/etc/crontab
+	/var/spool/cron/crontabs
+ 	```
+ 
+	1. Check the init files
+
+	```
+	/etc/init
+	/etc/init.d
+ 	```
+ 
+	1. Check for each user
+    
+	`crontab –u {USER} -l`
+
+1.  Check the runlevels if unable to boot into GUI
+   
+	1. To check the run level
+    
+	`runlevel`
+
+	1. Runlevels
+    
+
+	```
+ 	0-System halt;No activity
+	1-Single user
+	2-Multi-user, no filesystem
+	3-Multi-user, commandline only
+	4-user defineable
+	5-multi-users,GUI
+	6-Reboot
+ 	```
+ 
+	1. To change the run level
+	 `Telinit {level}`
+1.  APACHE
+	1. Hide Apache Version number.
+    
+		Add the following lines to the bottom of /etc/apache2/apache2.conf
+	
+		```
+	 	ServerSignature Off
+	 	ServerTokens Prod
+	 	```
+ 
+ 	1. Make sure Apache is running under its own user account and group.
+     
+		Add a separate user “apache”
+
+		Edit the `/etc/apache2/apache2.conf` file
+
+		```
+		User apache
+		Group apache
+  		```
+  
+	1. Ensure that file outside the web root directory are not accessed. /etc/apache2/apache2.conf
+
+		```
+		<Directory />
+		Order Deny,Allow
+		Dent from all
+		Options -Indexes
+		AllowOverride None
+		</Directory>
+		<Directory /html>
+		Order Allow,Deny
+		Allow from all
+		</Directory>
+  		```
+	1. Turn off directory browsing, Follow symbolic links and CGI execution
+    
+		Add Options `None` to a `<Directory /html>` tag
+
+	1. Install modsecurity
+    
+    		```
+    		apt-get install mod_security
+    		service httpd restart
+    		```
+  		
+	1. Lower the Timeout value in `/etc/apache2/apache2.conf`
+    
+		`Timeout 45`
+
+
 
 ## Other Checklists
 
