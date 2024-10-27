@@ -23,7 +23,8 @@ This script heavily borrows from [Forty-Bot Linux Checklist](https://github.com/
     	1. Find Machine ID
         	`hostnamctl`
 1. Account Configuration
-
+	1. Secure the /etc/shadow file
+              `chmod 640 /etc/shadow`
 	1. Lock the root account
 
 		`$ passwd -l root`
@@ -82,8 +83,6 @@ This script heavily borrows from [Forty-Bot Linux Checklist](https://github.com/
 		1. Group lines are preceded by `%`
 
 	1. Wait to change user passwords until after password policy!
-    	1. Secure the /etc/shadow file
-              `chmod 640 /etc/shadow`
 
 
 1. Password Policy
