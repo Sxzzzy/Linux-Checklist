@@ -17,7 +17,11 @@ This script heavily borrows from [Forty-Bot Linux Checklist](https://github.com/
 1. Do the Forensics Questions
 
 	Forensics questions can point you towards other vulnerabilities. Keep this in mind. (ex: a media file, find a hidden message, find a backdoor, etc)
-
+	1. Locate files
+    		`locate *.mp3`
+    		`find -size 12934c (c is for bytes`
+    	1. Find Machine ID
+        	`hostnamctl`
 1. Account Configuration
 
 	1. Lock the root account
@@ -391,7 +395,8 @@ Click Close (or Cancel if prompted to apply updates)
 	1. Deny users use of cron jobs
 
 		`$ echo "ALL" >> /etc/cron.deny`
-
+1. Kernel Debugging
+   	1.  The file: `/etc/sysctl.conf` should have `kernel.sysrq = 0`
 1. Kernel Hardening
 
 	1. Edit the `/etc/sysctl.conf` file
