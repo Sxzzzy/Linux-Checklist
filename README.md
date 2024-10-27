@@ -679,7 +679,71 @@ Click Close (or Cancel if prompted to apply updates)
     
 		`Timeout 45`
 
+1.  MySQL
+	1. Restrict remote MySQL access
+    
+		Edit `/etc/mysql/my.cnf`
 
+		`Bind-address=127.0.0.1`
+
+	1. Disable use of LOCAL INFILE
+		Edit `/etc/mysql/my.cnf`
+
+		```
+		[mysqld]
+	   	local-infile=0
+  		```
+  
+	1. Create Application Specific user
+
+		```
+		root@Ubuntu:~# mysql –u root –p
+		mysql> CREATE USER ‘myusr’@’localhost’ IDENTIFIED BY ‘password’;
+		mysql> GRANT SELECT,INSERT,UPDATE,DELETE ON mydb.* TO ‘myusr’@’localhost’ IDENTIFIED BY ‘password’;
+		mysql> FLUSH PRIVILEGES;
+  		```
+  
+	1. Improve Security with mysql_secure-installation
+  
+    		```
+    		root@Ubuntu:~# mysql_secure_installation
+    		change the root password?: y
+    		Remove anonymous users?: y
+    		Disallow root login remotely?: y
+    		Remove test database and access to it?: y
+    		Reload privilege tables now?: y
+		```
+
+1.  PHP
+	1. Restrict PHP Information Leakage
+ 
+		Edit `/etc/php5/apaceh2/php.ini`
+
+		`expose_php = off`
+
+	1. Disable Remote Code Execution
+		Edit `/etc/php5/apache2/php.ini`
+
+		```
+		allow_url_fopen=Off
+		allow_url_include=Off
+  		```
+
+	1. Disable dangerous PHP Functions
+
+		Edit `/etc/php5/apache2/php.ini`
+
+		`disable_functions=exec,shell_exec,passthru,system,popen,curl_exec,curl_multi_exec,parse_ini_file,show_source,proc_open,pcntl_exec`
+
+	1. Enable Limits in PHP
+
+		Edit `/etc/php5/apache2/php.ini`
+
+		```
+		upload_max_filesize = 2M
+	   	max_execution_time = 30
+		max_input_time = 60
+  		```
 
 ## Other Checklists
 
