@@ -22,6 +22,11 @@ This script heavily borrows from [Forty-Bot Linux Checklist](https://github.com/
     		`find -size 12934c (c is for bytes`
     	1. Find Machine ID
         	`hostnamctl`
+1. Install clamtk
+	`apt-get install clamtk`
+	Run the scan
+	`freshclam`
+
 1. Account Configuration
 	1. Secure the /etc/shadow file
               `chmod 640 /etc/shadow`
@@ -90,6 +95,10 @@ This script heavily borrows from [Forty-Bot Linux Checklist](https://github.com/
 	1. Change password expiration requirements in `/etc/login.defs`
 
 		```
+		FAILLOG_ENAB YES
+		LOG_UNKFAIL_ENAB YES
+		SYSLOG_SU_ENAB YES
+		SYSLOG_SG_ENAB YES
 		PASS_MAX_DAYS 30
 		PASS_MIN_DAYS 7
 		PASS_WARN_AGE 12
@@ -98,6 +107,14 @@ This script heavily borrows from [Forty-Bot Linux Checklist](https://github.com/
 	1. Add password history, minimum password length, and password complexity requirements in `/etc/pam.d/common-password`
 		**PASSWORD LENGTH**
 		1. The file that controls password complexity is:
+     			**INSTALL CRACKLIB PRIOR TO CHANGING COMMON-PASSWORD**
+
+			`$ apt-get install libpam-cracklib`
+	
+			```
+			password	required	pam_unix.so obscure sha512 remember=12 use_authtok
+			password	required	pam_cracklib.so retry=3 minlen=13 difok=4 dcredit=-1 ucredit=-1 ocredit=-1 lcredit=-1 maxrepeat=3
+			```
 
 			`/etc/pam.d/common-password`
 
@@ -120,16 +137,6 @@ This script heavily borrows from [Forty-Bot Linux Checklist](https://github.com/
 			1. It should look like this:
 			
 			`auth [success=2 default=ignore]pam_unix.so`
-
-
-		**INSTALL CRACKLIB PRIOR TO CHANGING COMMON-PASSWORD**
-
-		`$ apt-get install libpam-cracklib`
-
-		```
-		password	required	pam_unix.so obscure sha512 remember=12 use_authtok
-		password	required	pam_cracklib.so retry=3 minlen=13 difok=4 dcredit=-1 ucredit=-1 ocredit=-1 lcredit=-1 maxrepeat=3
-		```
 
 	1. Enforce account lockout policy in `/etc/pam.d/common-auth`
 
