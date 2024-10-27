@@ -1,6 +1,6 @@
 # MMA Leathernecks Team Linux Checklist
 ## https://cpxvii.s3.amazonaws.com/cp17_tr/CP17_Ubuntu22_Training_Answer_Key.pdf
-## Notes
+## Note
 
 Assume root permissions are needed for most commands. You can use `sudo` or become root with `su`.
 
