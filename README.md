@@ -422,26 +422,36 @@ Click Close (or Cancel if prompted to apply updates)
 	`Sysctl -p`
 
    	1. Add this to the bottom of the `/etc/sysctl.conf` file
+
    		1. Disable ICMP redirects
+   	 
 			`1.	net.ipv4.conf.all.accept_redirects = 0`
+
    		1. Disable IP redirecting
+   	    
 			`
    			net.ipv4.ip_forward = 0
 			net.ipv4.conf.all.send_redirects = 0
 			net.ipv4.conf.default.send_redirects = 0
 			`
+   
    		1. Disable IP spoofing
+   	    
 			`net.ipv4.conf.all.rp_filter=1`
    		1. Disable IP source routing
+   	    
 			`net.ipv4.conf.all.accept_source_route=0`
    		1. SYN Flood Protection
+   	    
 			`
    			net.ipv4.tcp_max_syn_backlog = 2048
 			net.ipv4.tcp_synack_retries = 2
 			net.ipv4.tcp_syn_retries = 5
 			net.ipv4.tcp_syncookies = 1
 			`
+   
    		1. Disable IPV6
+   	    
 			`
 			net.ipv6.conf.all.disable_ipv6 = 1
 			net.ipv6.conf.default.disable_ipv6
