@@ -20,7 +20,7 @@ This script heavily borrows from [Forty-Bot Linux Checklist](https://github.com/
 	1. Locate files
     		`locate *.mp3`
     		`find -size 12934c (c is for bytes`
-    	1. Find Machine ID
+	1. Find Machine ID
         	`hostnamctl`
 1. Install clamtk
 	`apt-get install clamtk`
