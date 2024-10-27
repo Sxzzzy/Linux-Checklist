@@ -42,6 +42,10 @@ This script heavily borrows from [Forty-Bot Linux Checklist](https://github.com/
 	1. Compare `/etc/passwd` and `/etc/group` to the readme
 
 		Look out for uid 0 and hidden users!
+	   	Look for any repeating UID or GID
+		Make sure no programs have a /bin/sh or /bin/bash
+		Only root should have a UID and GID of 0
+
 
 	1. Delete unauthorized users
 
@@ -78,6 +82,9 @@ This script heavily borrows from [Forty-Bot Linux Checklist](https://github.com/
 		1. Group lines are preceded by `%`
 
 	1. Wait to change user passwords until after password policy!
+    	1. Secure the /etc/shadow file
+              `chmod 640 /etc/shadow`
+
 
 1. Password Policy
 
@@ -310,11 +317,11 @@ Click Close (or Cancel if prompted to apply updates)
 
 		POSSIBLY BAD STUFF
 
-		`samba, postgresql, sftpd, vsftpd, apache, apache2, ftp, mysql, php, snmp, pop3, icmp, sendmail, dovecot, bind9, nginx, AisleRiot, manaplus`
+		`samba, postgresql, sftpd, vsftpd, apache, ftp, mysql, php, snmp, pop3, icmp, sendmail, dovecot, bind9, nginx, AisleRiot, manaplus`
 
 		MEGA BAD STUFF
 
-		`telnet, rlogind, rshd, rcmd, rexecd, rbootd, rquotad, rstatd, rusersd, rwalld, rexd, fingerd, tftpd, telnet, snmp, netcat, nc`
+		`telnet, rlogind, rshd, rcmd, rexecd, rbootd, rquotad, rstatd, rusersd, rwalld, rexd, fingerd, tftpd, telnet, snmp, netcat, nc, nginx,apache2`
 
 1. Service & Application Hardening
 
