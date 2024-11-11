@@ -27,6 +27,9 @@ This script heavily borrows from [Forty-Bot Linux Checklist](https://github.com/
 	Run the scan
 	`freshclam`
 
+1. Install clamtk
+   	Install required services
+
 1. Account Configuration
 	1. Secure the /etc/shadow file
               `chmod 640 /etc/shadow`
