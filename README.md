@@ -146,6 +146,32 @@ This script heavily borrows from [Forty-Bot Linux Checklist](https://github.com/
 
 		`auth	required	pam_tally2.so deny=5 audit unlock_time=1800 onerr=fail even_deny_root`
 
+		In a terminal, type `sudo touch /usr/share/pam-configs/faillock`, then sudo nano /usr/share/pam-configs/faillock`
+
+		```
+  		Name: Enforce failed login attempt counter
+		Default: no
+		Priority: 0
+		Auth-Type: Primary
+		Auth:
+		 [default=die] pam_faillock.so authfail
+		 sufficient pam_faillock.so authsucc
+  		```
+  
+		type `sudo touch /usr/share/pam-configs/faillock_notify`, then `sudo nano /usr/share/pam-configs/faillock_notify`
+
+		```
+		Name: Notify on failed login attempts
+		Default: no
+		Priority: 1024
+		Auth-Type: Primary
+		Auth:
+		 requisite pam_faillock.so preauth
+  		```
+  
+		Type `sudo pam-auth-update`.
+		Select, with the spacebar, Notify on failed login attempts, and Enforce failed login attempt counter, and then select
+		`<Ok>.`
 	1. Change account expiry defaults in `/etc/default/useradd`
 
 		```
@@ -463,6 +489,8 @@ Click Close (or Cancel if prompted to apply updates)
 			net.ipv6.conf.default.disable_ipv6
 			net.ipv6.conf.lo.disable_ipv6
 			```
+   		1. APPLY CHANGES **IMPORTANT**
+			 `sudo sysctl --system`
 
 1. Kernel Debugging
    	1.  The file: `/etc/sysctl.conf` should have `kernel.sysrq = 0`
